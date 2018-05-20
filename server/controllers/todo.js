@@ -1,4 +1,5 @@
 const Todo = require("../models").Todo;
+const TodoItem = require("../models").TodoItem;
 
 module.exports = {
   createTodo(req, res) {
@@ -12,17 +13,27 @@ module.exports = {
 
   getAllTodos(req, res) {
     return Todo
-    .findAll()
+    .findAll({
+      include: [{
+        model: TodoItem,
+        as: 'todoItems',
+      }],
+    })
     .then(todo => res.status(200).send(todo))
     .catch(err => res.status(500).send(err));
   },
 
   findATodo(req, res) {
     return Todo
-    .findOne({ where: {id: req.params.id} })
+    .findById(req.params.id, {
+      include: [{
+        model: TodoItem,
+        as: "todoItems"
+      }]
+    })
     .then(todo => {
       if(!todo) {
-        res.status(404).send("Not found");
+        res.status(404).send({ message: "Not found"});
       } else {
         res.status(200).send(todo);
       }})
@@ -32,10 +43,15 @@ module.exports = {
 
   updateATodo(req, res) {
     return Todo
-    .findOne({ where: {id: req.params.id} })
+    .findById(req.params.id, {
+      include: [{
+        model: TodoItem,
+        as: "todoItems"
+      }]
+    })
     .then(todo => {
       if(!todo) {
-        res.status(404).send("Not found");
+        res.status(404).send({ message: "Not found"});
       } else {
         const newTodo = {
           title: req.body.title
@@ -47,4 +63,18 @@ module.exports = {
     .catch(err => {
       res.status(500).send(err)});
   },
+
+  deleteATodo(req, res) {
+    return Todo
+    .findById(req.params.id)
+    .then(todo =>{
+    if(!todo) {
+      res.status(404).send({ message: "Todo not found" })
+    } else {
+      return todo.destroy()
+      .then(() => res.status(200).send({"message": "Todo deleted"}))
+      .catch(err => res.status(500).send(err))
+    }})
+    .catch(err => res.status(500).send(err))
+  }
 }
