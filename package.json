@@ -4,7 +4,7 @@
   "description": "Backend Todo API (CRUD) using Express, Node, Postgres and Sequelize",
   "main": "index.js",
   "scripts": {
-    "test": "npm test",
+    "test": "jest server/tests/",
     "start": "nodemon ./bin/www"
   },
   "author": "Aromokeye Seyi",
@@ -18,6 +18,12 @@
     "sequelize": "^4.37.7"
   },
   "devDependencies": {
-    "nodemon": "^1.17.4"
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "jest": "^22.4.4",
+    "nodemon": "^1.17.4",
+    "sinon": "^5.0.7",
+    "superagent": "^3.8.3",
+    "supertest": "^3.1.0"
   }
 }
