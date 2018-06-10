@@ -1,4 +1,4 @@
-const todo = require("../../controllers/todo");
+import todo from "../../controllers/todo";
 const request = require("supertest");
 const app = require("../../../app");
 

@@ -16,6 +16,8 @@ module.exports = (app) => {
   app.post('/api/:todoId/todoItem', todoItemsController.createTodoItem);
   app.get('/api/todoItem', todoItemsController.getAllTodoItems);
 
-  app.delete('/api/todos/:todoId/items/:todoItemId', todoItemsController.deleteATodoItem);
-  app.put('/api/todos/:todoId/items/:todoItemId', todoItemsController.updateATodoItem);
+  app.delete('/api/todos/:todoId/items/:todoItemId',
+    todoItemsController.deleteATodoItem);
+  app.put('/api/todos/:todoId/items/:todoItemId',
+    todoItemsController.updateATodoItem);
 };
