@@ -33,12 +33,12 @@ module.exports = {
     })
     .then(todo => {
       if(!todo) {
-        res.status(404).send({ message: "Not found"});
-      } else {
-        res.status(200).send(todo);
-      }})
-    .catch(err => {
-      res.status(500).send(err)});
+        return res.status(404).send({ message: "Not found"});
+      }
+        return res.status(200).send(todo);
+      })
+    .catch(err =>
+      res.status(500).send(err));
   },
 
   updateATodo(req, res) {
@@ -51,30 +51,30 @@ module.exports = {
     })
     .then(todo => {
       if(!todo) {
-        res.status(404).send({ message: "Not found"});
-      } else {
+        return res.status(404).send({ message: "Not found"});
+      }
         const newTodo = {
           title: req.body.title
         }
         return todo.update(newTodo)
         .then(() => res.status(200).send(todo))
         .catch((error) => res.status(400).send(error));
-      }})
-    .catch(err => {
-      res.status(500).send(err)});
+      })
+    .catch(err =>
+      res.status(500).send(err));
   },
 
   deleteATodo(req, res) {
     return Todo
     .findById(req.params.id)
     .then(todo =>{
-    if(!todo) {
-      res.status(404).send({ message: "Todo not found" })
-    } else {
-      return todo.destroy()
-      .then(() => res.status(200).send({"message": "Todo deleted"}))
-      .catch(err => res.status(500).send(err))
-    }})
+      if(!todo) {
+        return res.status(404).send({ message: "Todo not found" })
+      }
+        return todo.destroy()
+        .then(() => res.status(200).send({"message": "Todo deleted"}))
+        .catch(err => res.status(500).send(err))
+    })
     .catch(err => res.status(500).send(err))
   }
 }
