@@ -1,23 +1,24 @@
-const todosController = require('../controllers').todo;
-const todoItemsController = require('../controllers').todoItem;
+import { Router } from "express";
+import TodosController from "../controllers/TodoController";
+import TodoItemsController from "../controllers/TodoItemsController";
 
-module.exports = (app) => {
-  app.get('/api', (req, res) => res.status(200).send({
-    message: 'Welcome to the Todos API!',
-  }));
+const router = Router();
 
-  app.post('/api/todos', todosController.createTodo);
-  app.get('/api/todos', todosController.getAllTodos);
+  router.route("/api/v1/todos")
+  .get(TodosController.getAllTodos)
+  .post(TodosController.createTodo);
 
-  app.get('/api/todos/:id', todosController.findATodo);
-  app.put('/api/todos/:id', todosController.updateATodo);
-  app.delete('/api/todos/:id', todosController.deleteATodo);
+  router.route("/api/v1/todos/:id")
+  .get(TodosController.findATodo)
+  .put(TodosController.updateATodo)
+  .delete(TodosController.deleteATodo);
 
-  app.post('/api/:todoId/todoItem', todoItemsController.createTodoItem);
-  app.get('/api/todoItem', todoItemsController.getAllTodoItems);
+  router.route("/api/v1/:todoId/todoItem")
+  .post(TodoItemsController.createTodoItem)
+  .get(TodoItemsController.getAllTodoItems);
 
-  app.delete('/api/todos/:todoId/items/:todoItemId',
-    todoItemsController.deleteATodoItem);
-  app.put('/api/todos/:todoId/items/:todoItemId',
-    todoItemsController.updateATodoItem);
-};
+  router.route("/api/v1/todos/:todoId/items/:todoItemId")
+  .delete(TodoItemsController.deleteATodoItem)
+  .put(TodoItemsController.updateATodoItem);
+
+export default router;

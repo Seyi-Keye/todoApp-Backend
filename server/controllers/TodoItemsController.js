@@ -1,14 +1,14 @@
-const TodoItem = require("../models").TodoItem;
+import TodoItem from "../models";
 
-module.exports = {
+const TodoItemController = {
   createTodoItem(req, res) {
     return TodoItem.create({
       content: req.body.content,
-      todoId: req.params.todoId,
+      todoId: req.params.todoId
     })
-    .then(todoItem => res.status(201).send({"message": "TodoItem created",
+    .then(todoItem => res.status(201).send({message: "TodoItem created",
   data: todoItem}))
-    .catch(err => res.status(400).send(err))
+    .catch(err => res.status(400).send(err));
   },
 
   getAllTodoItems(req, res) {
@@ -23,20 +23,20 @@ module.exports = {
       .find({
           where: {
             id: req.params.todoItemId,
-            todoId: req.params.todoId,
-          },
+            todoId: req.params.todoId
+          }
         })
       .then(todoItem => {
         if (!todoItem) {
           return res.status(404).send({
-            message: 'TodoItem Not Found',
+            message: "TodoItem Not Found"
           });
         }
 
         return todoItem
           .update({
             content: req.body.content || todoItem.content,
-            complete: req.body.complete || todoItem.complete,
+            complete: req.body.complete || todoItem.complete
           })
           .then(updatedTodoItem => res.status(200).send(updatedTodoItem))
           .catch(error => res.status(400).send(error));
@@ -49,13 +49,13 @@ module.exports = {
       .find({
           where: {
             id: req.params.todoItemId,
-            todoId: req.params.todoId,
-          },
+            todoId: req.params.todoId
+          }
         })
       .then(todoItem => {
         if (!todoItem) {
           return res.status(404).send({
-            message: 'TodoItem Not Found',
+            message: "TodoItem Not Found"
           });
         }
 
@@ -65,6 +65,7 @@ module.exports = {
           .catch(error => res.status(400).send(error));
       })
       .catch(error => res.status(400).send(error));
-  },
-
+  }
 };
+
+export default TodoItemController;

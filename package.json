@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest server/tests/",
-    "start": "nodemon app.js"
+    "start": "babel-watch app.js"
   },
   "author": "Aromokeye Seyi",
   "license": "ISC",
@@ -25,7 +25,6 @@
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "jest": "^22.4.4",
-    "nodemon": "^1.17.4",
     "sinon": "^5.0.7",
     "supertest": "^3.1.0",
     "babel-core": "^6.26.3",

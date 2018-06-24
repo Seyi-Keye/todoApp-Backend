@@ -1,7 +1,6 @@
-const Todo = require("../models").Todo;
-const TodoItem = require("../models").TodoItem;
+import {Todo, TodoItem} from "../models";
 
-module.exports = {
+const TodoController = {
   createTodo(req, res) {
     return Todo
     .create({
@@ -16,8 +15,8 @@ module.exports = {
     .findAll({
       include: [{
         model: TodoItem,
-        as: 'todoItems',
-      }],
+        as: "todoItems"
+      }]
     })
     .then(todo => res.status(200).send(todo))
     .catch(err => res.status(500).send(err));
@@ -55,7 +54,7 @@ module.exports = {
       }
         const newTodo = {
           title: req.body.title
-        }
+        };
         return todo.update(newTodo)
         .then(() => res.status(200).send(todo))
         .catch((error) => res.status(400).send(error));
@@ -69,12 +68,14 @@ module.exports = {
     .findById(req.params.id)
     .then(todo =>{
       if(!todo) {
-        return res.status(404).send({ message: "Todo not found" })
+        return res.status(404).send({ message: "Todo not found" });
       }
         return todo.destroy()
-        .then(() => res.status(200).send({"message": "Todo deleted"}))
-        .catch(err => res.status(500).send(err))
+        .then(() => res.status(200).send({message: "Todo deleted"}))
+        .catch(err => res.status(500).send(err));
     })
-    .catch(err => res.status(500).send(err))
+    .catch(err => res.status(500).send(err));
   }
-}
+};
+
+export default TodoController;
