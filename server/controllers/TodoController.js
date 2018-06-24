@@ -29,7 +29,12 @@ const TodoController = {
 
   findATodo(req, res) {
     return Todo
-    .findById(req.params.id)
+    .findById(req.params.id, {
+      include: [{
+        model: TodoItem,
+        as: "todoItems"
+      }]
+    })
     .then(todo => {
       if(!todo) {
         return res.status(404).send({ message: "Not found"});
