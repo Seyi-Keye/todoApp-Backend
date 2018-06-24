@@ -41,7 +41,6 @@ describe("Todo controller: ", () => {
   describe("createTodo", () => {
     it("successfully creates a todo", done => {
       request.get("/").then(response => {
-        console.log(response, "====");
         expect(response.status).toBe(200);
         expect(response.text).toBe("{\"message\":\"Welcome to this Todo List App\"}");
         done();
