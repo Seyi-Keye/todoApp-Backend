@@ -1,26 +1,30 @@
-const express = require("express");
-const logger = require("morgan");
-const bodyParser = require("body-parser");
+require("dotenv").config();
+import express from "express";
+import logger from "morgan";
+import bodyParser from "body-parser";
+
+
+// require routes
+const port = process.env.PORT || 8000;
+
+import router from "./server/routes/index";
 
 // Set up the express app
 const app = express();
 
-// Log requests to the console.
 app.use(logger("dev"));
 
-// Parse incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
-//require routes
-require('./server/routes')(app);
+app.use(router);
 
-
-// Setup a default catch-all route that sends back a welcome message in JSON format.
 app.get("*", (req, res) =>
   res.status(200).send({
     message: "Welcome to this Todo List App"
   })
 );
 
-module.exports = app;
+app.set("port", port);
+/* eslint no-console:0 */
+app.listen(port, () => console.log(`Server is live on port ${port}`));
