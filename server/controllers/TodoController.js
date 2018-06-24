@@ -19,10 +19,8 @@ const TodoController = {
       }]
     })
     .then(todo => res.status(200).send(todo))
-    .catch(err => {
-      console.log(err)
-      res.status(500).send(err);
-    });
+    .catch(err =>
+      res.status(500).send(err));
   },
 
   findATodo(req, res) {

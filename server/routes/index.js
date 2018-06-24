@@ -1,6 +1,7 @@
 import { Router } from "express";
 import TodosController from "../controllers/TodoController";
 import TodoItemsController from "../controllers/TodoItemsController";
+import UserController from "../controllers/UserController";
 
 const router = Router();
 
@@ -21,5 +22,18 @@ const router = Router();
   .delete(TodoItemsController.deleteATodoItem)
   .put(TodoItemsController.updateATodoItem)
   .get(TodoItemsController.getATodoItem);
+
+  // user routes
+  router.route("/api/v1/users")
+  .post(UserController.createUser)
+  .get(UserController.getAllUsers);
+
+  router.route("/api/v1/users/:userId")
+  .get(UserController.getAUser)
+  .delete(UserController.softDeleteUser);
+
+  router.route("/api/v1/login")
+  .post(UserController.userLogin);
+
 
 export default router;

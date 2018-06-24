@@ -1,6 +1,6 @@
 module.exports = {
   up (queryInterface, Sequelize) {
-   queryInterface.createTable("User", {
+   queryInterface.createTable("Users", {
      id: {
        allowNull: false,
        autoIncrement: true,
@@ -9,15 +9,18 @@ module.exports = {
      },
      name: {
        type: Sequelize.STRING,
-       allowNull: false
+       allowNull: false,
+       unique: true
      },
      email: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true
      },
      password: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true
      },
      isDeleted: {
       type: Sequelize.BOOLEAN,
@@ -35,6 +38,6 @@ module.exports = {
   },
 
   down (queryInterface) {
-   queryInterface.dropTable("User");
+   queryInterface.dropTable("Users");
   }
 };
