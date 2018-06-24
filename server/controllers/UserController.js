@@ -1,4 +1,4 @@
-import { User } from "../models";
+import { User, Todo } from "../models";
 import signedToken from "../utils/signToken";
 import verifyPassword from "../utils/verifyPassword";
 
@@ -42,7 +42,11 @@ const UserController = {
       where: {
         id: req.params.userId
       },
-      attributes: ["id", "name", "email", "isDeleted", "createdAt", "updatedAt"]
+      attributes: ["id", "name", "email", "isDeleted", "createdAt", "updatedAt"],
+      include: [{
+        model: Todo,
+        as: "todos"
+      }]
     })
     .then(user => {
       if(!user) return res.status(404).send({
@@ -50,7 +54,9 @@ const UserController = {
       });
       res.status(200).send(user);
     })
-    .catch(err => res.status(500).send(err));
+    .catch(err => {
+      res.status(500).send(err);
+    });
   },
 
   softDeleteUser(req, res) {

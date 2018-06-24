@@ -4,7 +4,8 @@ const TodoItemController = {
   createTodoItem(req, res) {
     return TodoItem.create({
       content: req.body.content,
-      todoId: req.params.todoId
+      todoId: req.params.todoId,
+      userId: req.decoded.userId
     })
     .then(todoItem => res.status(201).send({
       message: "TodoItem created",
