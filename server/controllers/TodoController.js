@@ -4,7 +4,8 @@ const TodoController = {
   createTodo(req, res) {
     return Todo
     .create({
-       title: req.body.title
+       title: req.body.title,
+       userId: req.decoded.userId
       })
     .then(todo => res.status(201).send(todo))
     .catch(err => res.status(500).send(err));
@@ -13,10 +14,13 @@ const TodoController = {
   getAllTodos(req, res) {
     return Todo
     .findAll({
-      include: [{
-        model: TodoItem,
-        as: "todoItems"
-      }]
+      where: {
+        userId: req.decoded.userId
+      },
+        include: [{
+          model: TodoItem,
+          as: "todoItems"
+        }]
     })
     .then(todo => res.status(200).send(todo))
     .catch(err =>
@@ -43,12 +47,7 @@ const TodoController = {
 
   updateATodo(req, res) {
     return Todo
-    .findById(req.params.id, {
-      include: [{
-        model: TodoItem,
-        as: "todoItems"
-      }]
-    })
+    .findById(req.params.id)
     .then(todo => {
       if(!todo) {
         return res.status(404).send({ message: "Not found"});
