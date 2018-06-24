@@ -1,5 +1,6 @@
 import { User } from "../models";
 import signedToken from "../utils/signToken";
+import verifyPassword from "../utils/verifyPassword";
 
 const UserController = {
   createUser(req, res) {
@@ -48,6 +49,59 @@ const UserController = {
         message: "User not found"
       });
       res.status(200).send(user);
+    })
+    .catch(err => res.status(500).send(err));
+  },
+
+  softDeleteUser(req, res) {
+    User.findById(req.params.userId)
+    .then(user => {
+      if (!user) {
+        return res.status(400).send({
+        message: "User not found"
+      });
+    } else if (user && user.isDeleted) {
+      return res.status(400).send({
+        message: "User already deleted"
+      });
+    }
+    return user
+    .update({
+      isDeleted: true
+    })
+    .then(() => res.status(200).send({
+      message: "User deleted"
+    }))
+    .catch(err => res.status(500).send(err));
+    })
+    .catch(err => res.status(500).send(err));
+  },
+
+  userLogin(req, res) {
+    User.findOne({
+      where: {
+        email: req.body.email
+      }
+    })
+    .then(user => {
+      if(!user) {
+        return res.status(404).send({
+        message: "User not found" });
+      } else if (!verifyPassword(req.body.password, user.password)) {
+        return res.status(401).send({
+          message: "Incorrect Password" });
+      }
+      const token = signedToken(user.id);
+      return res.status(200).send({
+        message: "User sign in successful",
+        token,
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          isDeleted: user.isDeleted
+        }
+       });
     })
     .catch(err => res.status(500).send(err));
   }

@@ -29,7 +29,11 @@ const router = Router();
   .get(UserController.getAllUsers);
 
   router.route("/api/v1/users/:userId")
-  .get(UserController.getAUser);
+  .get(UserController.getAUser)
+  .delete(UserController.softDeleteUser);
+
+  router.route("/api/v1/login")
+  .post(UserController.userLogin);
 
 
 export default router;
