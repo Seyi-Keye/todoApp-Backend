@@ -13,12 +13,13 @@ const router = Router();
   .put(TodosController.updateATodo)
   .delete(TodosController.deleteATodo);
 
-  router.route("/api/v1/:todoId/todoItem")
+  router.route("/api/v1/todos/:todoId/todoItems")
   .post(TodoItemsController.createTodoItem)
   .get(TodoItemsController.getAllTodoItems);
 
-  router.route("/api/v1/todos/:todoId/items/:todoItemId")
+  router.route("/api/v1/todos/:todoId/todoItems/:todoItemId")
   .delete(TodoItemsController.deleteATodoItem)
-  .put(TodoItemsController.updateATodoItem);
+  .put(TodoItemsController.updateATodoItem)
+  .get(TodoItemsController.getATodoItem);
 
 export default router;
