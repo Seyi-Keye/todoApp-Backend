@@ -13,7 +13,7 @@ const TodoItemController = {
 
   getAllTodoItems(req, res) {
     return TodoItem
-    .findAll()
+    .findAll({})
     .then(todoItems => res.status(200).send(todoItems))
     .catch(err => res.status(500).send(err));
   },

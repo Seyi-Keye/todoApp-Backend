@@ -4,7 +4,7 @@
   "description": "Backend Todo API (CRUD) using Express, Node, Postgres and Sequelize",
   "main": "index.js",
   "scripts": {
-    "test": "jest server/tests/",
+    "test": "NODE_ENV=test jest ./**/tests/**/*.test.js",
     "start": "babel-watch app.js"
   },
   "author": "Aromokeye Seyi",
