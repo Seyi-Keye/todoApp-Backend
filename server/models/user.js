@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
+      required: true
     },
     email: {
       type: DataTypes.STRING,
@@ -13,14 +14,16 @@ module.exports = (sequelize, DataTypes) => {
         isEmail: true
       },
       allowNull: false,
-      unique: true
+      unique: true,
+      required: true
     },
   password: {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
       min: 5
-    }
+    },
+    required: true
   },
     isDeleted: {
       type: DataTypes.BOOLEAN,
