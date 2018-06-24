@@ -1,4 +1,4 @@
-import TodoItem from "../models";
+import {TodoItem} from "../models";
 
 const TodoItemController = {
   createTodoItem(req, res) {
@@ -6,14 +6,17 @@ const TodoItemController = {
       content: req.body.content,
       todoId: req.params.todoId
     })
-    .then(todoItem => res.status(201).send({message: "TodoItem created",
+    .then(todoItem => res.status(201).send({
+      message: "TodoItem created",
   data: todoItem}))
     .catch(err => res.status(400).send(err));
   },
 
   getAllTodoItems(req, res) {
     return TodoItem
-    .findAll({})
+    .findAll({
+      where: {
+        todoId: req.params.todoId}})
     .then(todoItems => res.status(200).send(todoItems))
     .catch(err => res.status(500).send(err));
   },
@@ -65,6 +68,16 @@ const TodoItemController = {
           .catch(error => res.status(400).send(error));
       })
       .catch(error => res.status(400).send(error));
+  },
+
+  getATodoItem(req, res) {
+    return TodoItem
+    .findOne({where: {
+      todoId: req.params.todoId,
+      id: req.params.todoItemId
+    }})
+    .then(todoItem => res.status(200).send(todoItem))
+    .catch(err => res.status(500).send(err));
   }
 };
 
